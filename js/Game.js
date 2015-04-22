@@ -5,9 +5,16 @@
 BasicGame.Game = function(game) {
     //player variables
     this.keys = null;
-    this.notHeld = null;
+    this.notLeft = null;
+    this.notUp = null;
+    this.notRight = null;
+    this.notDown = null;
     this.score = 0;
+    this.finished = false;
     
+    //object variables
+    this.barrier = null;
+    this.doorHealth = null;
     
     //sound
     this.fx = null;
@@ -19,38 +26,60 @@ BasicGame.Game = function(game) {
     //checks player 1 input
     this.checkKeys = function() {
         
-        //player 1 movement
+        //player 1 input
         if(this.keys.left.isDown)
         {
-            if(this.notHeld)
+            if(this.notLeft)
             {
-                this.notHeld = false;
-            }
-        }
-        else if(this.keys.right.isDown)
-        {
-            if(this.notHeld)
-            {
-                this.notHeld = false;
-            }
-        }
-        else if(this.keys.up.isDown)
-        {
-            if(this.notHeld)
-            {
-                this.notHeld = false;
-            }
-        }
-        else if(this.keys.down.isDown)
-        {
-            if(this.notHeld)
-            {
-                this.notHeld = false;
+                this.notLeft = false;
+                this.doorHealth -= 1;
             }
         }
         else
         {
-            this.notHeld = true;
+            this.notLeft = true;
+        }
+        
+        
+        if(this.keys.right.isDown)
+        {
+            if(this.notRight)
+            {
+                this.notRight = false;
+                this.doorHealth -= 1;
+            }
+        }
+        else
+        {
+            this.notRight = true;
+        }
+        
+        
+        if(this.keys.up.isDown)
+        {
+            if(this.notUp)
+            {
+                this.notUp = false;
+                this.doorHealth -= 1;
+            }
+        }
+        else
+        {
+            this.notUp = true;
+        }
+        
+        
+        if(this.keys.down.isDown)
+        {
+            if(this.notDown)
+            {
+                this.notDown = false;
+                this.doorHealth -= 1;
+            }
+        }
+        else
+        {
+            this.notDown = true;
         }
     };
     
@@ -73,6 +102,15 @@ BasicGame.Game = function(game) {
         this.enemies.y = 0;
     };
     
+    this.checkDoor = function()
+    {
+        if(this.doorHealth <= 0)
+        {
+            this.doorHealth = 0;
+            this.gameOver();
+        }
+    }
+    
     //revives enemies as needed
     this.revive = function()
     {
@@ -82,9 +120,11 @@ BasicGame.Game = function(game) {
     //end game feedback
     this.gameOver = function()
     {
+        this.score = parseInt((this.game.time.now - this.score) / 1000);
         var tempStyle = {font: "40px Arial", fill: "#ffffff", align: "left"}
-        this.endText = this.game.add.text(600, 400, "", tempStyle);
+        this.endText = this.game.add.text(600, 200, "Time: " + this.score, tempStyle);
         this.endText.anchor.setTo(0.5, 0.5);
+        this.finished = true;
     }
 };
 
@@ -100,7 +140,18 @@ function create() {
     
     //creates input for player 1
     this.keys = this.game.input.keyboard.createCursorKeys();
-    this.notHeld = true;
+    this.notLeft = true;
+    this.notUp = true;
+    this.notRight = true;
+    this.notDown = true;
+    
+    //score
+    this.score = this.game.time.now;
+    
+    //create door
+    this.barrier = this.game.add.sprite( this.game.world.centerX, 600, 'door');
+    this.barrier.anchor.setTo(0.5,0.5);
+    this.doorHealth = 300;
     
     //sound
     this.fx = this.game.add.audio('castSound');
@@ -110,9 +161,14 @@ function create() {
 
 function update(){
     //check player input
-    this.checkKeys();
+    if(!(this.finished))
+    {
+        this.checkKeys();
+        this.checkDoor();
+    }
 }
 
 function render()
 {
+    this.game.debug.text("Health: " + this.doorHealth, 500, 350);
 }

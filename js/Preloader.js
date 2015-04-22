@@ -25,16 +25,8 @@ function preload() {
 
 //======================= load all in game assets ============================================
     // Loads images
-    this.game.load.image( 'world', 'assets/images/ForestBackground.png' );
-    this.game.load.image( 'wizard', 'assets/images/Mage.png');
-    this.game.load.image( 'wizard2', 'assets/images/DarkMage.png');
-    this.game.load.image( 'monster', 'assets/images/Specter.png');
-    this.game.load.image( 'magic', 'assets/images/Boltshot.png');
-    this.game.load.image( 'magic2', 'assets/images/Darkshot.png');
-    this.game.load.image( 'menuBackground', 'assets/images/SpecterSwarm.png');
+    this.game.load.image( 'door', 'assets/images/HugeDoor.png');
     this.game.load.image( 'enter', 'assets/images/Button.png');
-    this.game.load.image( 'gigaMonster', 'assets/images/GigaSpecter.png');
-    this.game.load.image( 'slash', 'assets/images/Darkslash.png');
         
     // loads sound
     this.game.load.audio( 'castSound', 'assets/audio/magicshot.mp3');
