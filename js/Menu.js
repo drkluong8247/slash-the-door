@@ -31,9 +31,13 @@ BasicGame.Menu.prototype = {
 function create() {
     console.log("%cStarting game state Menu", "color:white; background:green");
 
-
     // load background
-    this.background = this.game.add.image(0, 0, 'menuBackground');
+    this.game.stage.backgroundColor = '#409090';
+    
+    // title
+    var titleStyle = {font: "50px Arial", fill: "#0000ff", align: "left"};
+    this.titletext = this.game.add.text(600, 200, "Slash the Door", titleStyle);
+    this.titletext.anchor.setTo(0.5, 0.5);
 
     // set up button sound
     this.buttonSound = this.game.add.audio('ding');
@@ -49,7 +53,6 @@ function create() {
 function update() {
     if(this.gameTime > 0 && this.game.time.now >= this.gameTime) {
         this.state.start('Instructions');
-        //this.state.start('Game');
     }
 }
 
