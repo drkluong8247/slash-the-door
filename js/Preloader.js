@@ -27,7 +27,11 @@ function preload() {
     // Loads images
     this.game.load.image( 'door', 'assets/images/HugeDoor.png');
     this.game.load.image( 'enter', 'assets/images/Button.png');
-        
+    this.game.load.image( 'rightPoint', 'assets/images/RightArrow.png');
+    this.game.load.image( 'leftPoint', 'assets/images/LeftArrow.png');
+    this.game.load.image( 'upPoint', 'assets/images/UpArrow.png');
+    this.game.load.image( 'downPoint', 'assets/images/DownArrow.png');
+    
     // loads sound
     this.game.load.audio( 'castSound', 'assets/audio/magicshot.mp3');
     this.game.load.audio( 'backgroundMusic', 'assets/audio/AnimalCrossing-TownHall.ogg');
