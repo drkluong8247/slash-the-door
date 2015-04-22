@@ -31,12 +31,13 @@ function preload() {
     this.game.load.image( 'leftPoint', 'assets/images/LeftArrow.png');
     this.game.load.image( 'upPoint', 'assets/images/UpArrow.png');
     this.game.load.image( 'downPoint', 'assets/images/DownArrow.png');
+    this.game.load.image( 'slash', 'assets/images/HugeSlash.png');
     
     // loads sound
-    this.game.load.audio( 'castSound', 'assets/audio/magicshot.mp3');
     this.game.load.audio( 'backgroundMusic', 'assets/audio/AnimalCrossing-TownHall.ogg');
     this.game.load.audio( 'ding', 'assets/audio/coincollect.ogg');
-    
+    this.game.load.audio( 'slash', 'assets/audio/slash.wav');
+    this.game.load.audio( 'wrong', 'assets/audio/Laser.wav');
 }
 
 function create() {

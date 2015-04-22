@@ -23,9 +23,13 @@ BasicGame.Game = function(game) {
     this.downArrows = null;
     this.arrowCount = 0;
     
+    //slashes variables
+    this.slashes = null;
+    
     //sound
     this.fx = null;
     this.music = null;
+    this.miss = null;
     
     //end game text
     this.endText = "";
@@ -99,12 +103,15 @@ BasicGame.Game = function(game) {
         if(arrow == null)
         {
             this.score -= 1000;
+            this.miss.play();
         }
         else
         {
             this.doorHealth -= 1;
             arrow.kill();
             this.arrowCount -= 1;
+            this.createAttack();
+            this.fx.play();
         }
         
         if(this.arrowCount == 0)
@@ -112,6 +119,16 @@ BasicGame.Game = function(game) {
             this.createEnemies();
         }
     };
+    
+    this.createAttack = function()
+    {
+        var attack = this.slashes.getFirstExists(false);
+        var tempX = this.game.rnd.integer() % 100 + 550;
+        var tempY = this.game.rnd.integer() % 100 + 550;
+        attack.reset(tempX, tempY);
+        attack.lifespan = 200;
+        attack.angle = this.game.rnd.integer() % 180;
+    }
     
     //initializes enemies
     this.createEnemies = function()
@@ -128,29 +145,29 @@ BasicGame.Game = function(game) {
         {
             var arrow = this.rightArrows.getFirstExists(false);
             arrow.reset(tempX, tempY);
-            arrow.body.velocity.x = this.game.rnd.integer() % 300 - 150;
-            arrow.body.velocity.y = this.game.rnd.integer() % 100 - 500;
+            arrow.body.velocity.x = this.game.rnd.integer() % 500 - 250;
+            arrow.body.velocity.y = this.game.rnd.integer() % 500 - 250;
         }
         for(var j = 0; j < numLeft; j++)
         {
             var arrow = this.leftArrows.getFirstExists(false);
             arrow.reset(tempX, tempY);
-            arrow.body.velocity.x = this.game.rnd.integer() % 300 - 150;
-            arrow.body.velocity.y = this.game.rnd.integer() % 100 - 500;
+            arrow.body.velocity.x = this.game.rnd.integer() % 500 - 250;
+            arrow.body.velocity.y = this.game.rnd.integer() % 500 - 250;
         }
         for(var k = 0; k < numUp; k++)
         {
             var arrow = this.upArrows.getFirstExists(false);
             arrow.reset(tempX, tempY);
-            arrow.body.velocity.x = this.game.rnd.integer() % 300 - 150;
-            arrow.body.velocity.y = this.game.rnd.integer() % 100 - 500;
+            arrow.body.velocity.x = this.game.rnd.integer() % 500 - 250;
+            arrow.body.velocity.y = this.game.rnd.integer() % 500 - 250;
         }
         for(var l = 0; l < numDown; l++)
         {
             var arrow = this.downArrows.getFirstExists(false);
             arrow.reset(tempX, tempY);
-            arrow.body.velocity.x = this.game.rnd.integer() % 300 - 150;
-            arrow.body.velocity.y = this.game.rnd.integer() % 100 - 500;
+            arrow.body.velocity.x = this.game.rnd.integer() % 500 - 250;
+            arrow.body.velocity.y = this.game.rnd.integer() % 500 - 250;
         }
         
         this.arrowCount = numRight+numLeft+numUp+numDown;
@@ -260,11 +277,19 @@ function create() {
     this.downArrows.enableBody = true;
     this.downArrows.physicsBodyType = Phaser.Physics.ARCADE;
     
+    this.slashes = this.game.add.group();
+    this.slashes.enableBody = true;
+    this.slashes.createMultiple(100, 'slash', 0, false);
+    this.slashes.setAll('anchor.x', 0.5);
+    this.slashes.setAll('anchor.y', 0.5);
+    this.slashes.setAll('outOfBoundsKill', true);
+    
     this.fillGroups();
     this.createEnemies();
     
     //sound
-    this.fx = this.game.add.audio('castSound');
+    this.fx = this.game.add.audio('slash');
+    this.miss = this.game.add.audio('wrong');
     this.music = this.game.add.audio('backgroundMusic', 1, true);
     this.music.play('', 0, 1, true);
 }

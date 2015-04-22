@@ -36,7 +36,7 @@ function create() {
     
     var instructStyle = {font: "20px Arial", fill: "#ffffff", align: "left"};
     this.instructText = this.game.add.text(600, 200, "", instructStyle);
-    this.instructText.setText("Use the arrow keys in an attempt to break down the door with the broken lock.");
+    this.instructText.setText("Your front door appears to be jammed, and instead of picking the lock, you decide to break it down and repair it later.\nArrow icons will appear on the screen.\nPress the corresponding arrow key to deal 1 point of damage to the door.\nPressing an arrow key for which no icon appears on the screen will result in a one second penalty.\nBreak the door as fast as you can.");
     this.instructText.anchor.setTo(0.5, 0.5);
     
     // set up button sprite
